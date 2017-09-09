@@ -1,0 +1,12 @@
+<configuration>
+    <!-- Create a logcat appender -->
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <encoder>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <root level="VERBOSE">
+        <appender-ref ref="logcat"/>
+    </root>
+</configuration>

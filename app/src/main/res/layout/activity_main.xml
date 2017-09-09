@@ -1,0 +1,129 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        android:background="?attr/colorPrimary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ButtonLayout"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/login_btn"
+            android:layout_width="wrap_content"
+            android:minWidth="150dp"
+            android:layout_height="wrap_content"
+            style="@style/DefaultBtn"
+            android:text="@string/log_in"/>
+
+        <TextView
+            android:id="@+id/login_state"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            style="@style/StateText"
+            android:text="@string/logged_out"/>
+
+        <ProgressBar
+            android:id="@+id/login_progress"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ButtonLayout">
+
+        <TextView
+            android:id="@+id/connect_btn"
+            android:layout_width="wrap_content"
+            android:minWidth="150dp"
+            android:layout_height="wrap_content"
+            style="@style/DefaultBtn"
+            android:text="@string/connect"/>
+
+        <TextView
+            android:id="@+id/connection_state"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            style="@style/StateText"
+            android:text="@string/disconnected"/>
+
+        <ProgressBar
+            android:id="@+id/connection_progress"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ButtonLayout">
+
+        <TextView
+            android:id="@+id/optimal_server_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            style="@style/DefaultBtn"
+            android:text="@string/optimal_server"/>
+
+        <TextView
+            android:id="@+id/selected_server"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            style="@style/StateText"
+            android:text="@string/unknown"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/traffic_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/default_text_size"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="@dimen/default_padding"
+        tools:text="UL: 0 Kb, DL: 0 Kb"/>
+
+    <TextView
+        android:id="@+id/traffic_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/default_text_size"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/default_padding"
+        android:layout_marginLeft="@dimen/default_padding"
+        android:textColor="@android:color/black"
+        android:alpha="0.7"
+        tools:text="0 Mb of 0 Mb available"/>
+
+</LinearLayout>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/default_padding"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="90dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="@string/host_url_title"/>
+
+        <EditText
+            android:id="@+id/host_url_ed"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:hint="Your host url or empty"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            tools:text="Your Host URL or Empty for demo default"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="90dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="@string/carrier_id_title"/>
+
+        <EditText
+            android:id="@+id/carrier_id_ed"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:hint="Your carrier id or empty"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            tools:text="Your carrier id or Empty for demo default"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="90dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="@string/oauth_access_token"/>
+
+        <EditText
+            android:id="@+id/oauth_access_token_ed"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:hint="OAuth Access Token or Empty for Anonymous"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            tools:text="OAuth Access Token or Empty for Anonymous"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="90dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="@string/oauth_access_method"/>
+
+        <EditText
+            android:id="@+id/oauth_access_method_ed"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:hint="anonymous, oauth, github, facebook, twitter, firebase"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            tools:text="anonymous, oauth, github, facebook, twitter, firebase"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="Supported methods: anonymous, oauth, github, facebook, twitter, firebase"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/default_padding"
+        android:layout_marginBottom="@dimen/default_padding">
+
+        <TextView
+            android:id="@+id/login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bkg"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@android:color/white"
+            android:text="@string/log_in"
+            android:paddingLeft="@dimen/increased_padding"
+            android:paddingRight="@dimen/increased_padding"
+            android:paddingTop="@dimen/default_padding"
+            android:paddingBottom="@dimen/default_padding"/>
+
+    </LinearLayout>
+
+</LinearLayout>
