@@ -1,5 +1,7 @@
 [![](https://jitpack.io/v/AnchorFreePartner/cake-tube-sdk-android.svg)](https://jitpack.io/#AnchorFreePartner/cake-tube-sdk-android)
 
+GitHub project: https://github.com/AnchorFreePartner/caketubesdk-demo-android
+
 # Anchorfree CakeTube VPN SDK demo for Android
 
 This is a demo application for Android with basic usage of CakeTube VPN SDK.
