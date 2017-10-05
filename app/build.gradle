@@ -52,7 +52,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.github.AnchorFreePartner:cake-tube-sdk-android:ebfe6be753'
+    compile 'com.github.AnchorFreePartner:cake-tube-sdk-android:1.2.6'
 
     compile "com.android.support:appcompat-v7:${androidSupportLibraryVersion}"
     compile "com.android.support:cardview-v7:${androidSupportLibraryVersion}"
