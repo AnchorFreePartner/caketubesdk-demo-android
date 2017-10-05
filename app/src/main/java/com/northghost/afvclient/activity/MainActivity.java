@@ -6,13 +6,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import com.northghost.afvclient.MainApplication;
 import com.northghost.afvclient.R;
 import com.northghost.afvclient.core.CodeStrings;
@@ -239,6 +242,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void failure(ApiException e) {
+                Log.e("loginUser", "unable to sign in " + e);
                 DialogHelper.showMessage(getString(R.string.signin_error), e.getMessage(), MainActivity.this);
                 updateUI();
             }

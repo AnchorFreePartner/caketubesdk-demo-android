@@ -1,10 +1,16 @@
 package com.northghost.afvclient;
 
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.northghost.caketube.AFClientService;
+import com.northghost.caketube.VPNNotificationProvider;
+import de.blinkt.openvpn.core.VpnStatus;
 
 public class MainApplication extends Application {
     private AFClientService api;
@@ -38,6 +44,18 @@ public class MainApplication extends Application {
                 .setCarrierId(carrierId)
                 .setConnectionRetries(3)
                 .setHostUrl(hostUrl)
+                .setVPNNotificationProvider(new VPNNotificationProvider() {
+                    // NOTE: this method will be called from VPN process, reference to MainApplication will be different
+                    @Override
+                    public Notification createVPNNotification(String message, String ticker, boolean b, long l, VpnStatus.ConnectionStatus connectionStatus) {
+                        return new NotificationCompat.Builder(getApplicationContext(), "ctsdk")
+                                .setContentText(message)
+                                .setTicker(ticker)
+                                .setContentTitle(getResources().getString(R.string.app_name))
+                                .setSmallIcon(R.drawable.notification_icon)
+                                .build();
+                    }
+                })
                 .build();
     }
 
