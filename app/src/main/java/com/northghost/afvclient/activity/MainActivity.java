@@ -12,16 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import com.northghost.afvclient.MainApplication;
 import com.northghost.afvclient.R;
 import com.northghost.afvclient.core.CodeStrings;
 import com.northghost.afvclient.core.MainHelper;
 import com.northghost.afvclient.dialogs.DialogHelper;
-import com.northghost.afvclient.dialogs.LoginConfirmationDialog;
 import com.northghost.afvclient.dialogs.RegionChooserDialog;
 import com.northghost.caketube.AFClientService;
 import com.northghost.caketube.AFConnectionService;
@@ -34,9 +29,14 @@ import com.northghost.caketube.pojo.LogoutResponse;
 import com.northghost.caketube.pojo.RemainingTrafficResponse;
 import com.northghost.caketube.pojo.ServerItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity
-        implements AFConnectionService.ServiceConnectionCallbacks, AFConnectionService.VPNConnectionStateListener,
-        LoginConfirmationDialog.LoginConfirmationInterface, RegionChooserDialog.RegionChooserInterface {
+        implements AFConnectionService.ServiceConnectionCallbacks,
+        AFConnectionService.VPNConnectionStateListener,
+        RegionChooserDialog.RegionChooserInterface {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity
         connectionService = AFConnectionService.newBuilder(this)
                 .addConnectionCallbacksListener(this)
                 .addVPNConnectionStateListener(this)
-                .setName(getString(R.string.app_name))
                 .build();
     }
 
@@ -125,12 +124,6 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         connectionService.onActivityResult(requestCode, resultCode, data); // NOTE: this is a mandatory call
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ((MainApplication) getApplication()).destroySession();
     }
 
     private void disconnectVPN() {
@@ -175,11 +168,45 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.login_btn)
     public void onLoginBtnClick(View v) {
         AFClientService api = ((MainApplication) getApplication()).getApi();
+        showLoginProgress();
+
         if (!api.isLoggedIn()) {
-            LoginConfirmationDialog.newInstance(userOAuthToken, userOAuthMethod)
-                    .show(getSupportFragmentManager(), LoginConfirmationDialog.TAG);
+            api.login(userOAuthToken, userOAuthMethod, new ResponseCallback<LoginResponse>() {
+                @Override
+                public void success(LoginResponse loginResponse) {
+                    if (!"OK".equalsIgnoreCase(loginResponse.getResult())) {
+                        int stringRes = CodeStrings.codeForStatus(loginResponse.getResult());
+                        String error = (stringRes == R.string.app_error) ? loginResponse.getResult() : getString(stringRes);
+
+                        DialogHelper.showMessage(getString(R.string.signin_error), error, MainActivity.this);
+                        return;
+                    }
+                    updateUI();
+                }
+
+                @Override
+                public void failure(ApiException e) {
+                    Log.e("loginUser", "unable to sign in " + e);
+                    DialogHelper.showMessage(getString(R.string.signin_error), e.getMessage(), MainActivity.this);
+                    updateUI();
+                }
+            });
         } else {
-            logoutUser();
+            api.logout(new ResponseCallback<LogoutResponse>() {
+                @Override
+                public void success(LogoutResponse logoutResponse) {
+                    if (connectionService.isServiceConnected() && connectionService.getVPNConnectionState() != AFConnectionService.VPNConnectionState.NOT_CONNECTED) {
+                        connectionService.disconnect();
+                    }
+                    updateUI();
+                }
+
+                @Override
+                public void failure(ApiException e) {
+                    Toast.makeText(MainActivity.this, getString(R.string.no_network), Toast.LENGTH_LONG).show();
+                    updateUI();
+                }
+            });
         }
     }
 
@@ -206,7 +233,7 @@ public class MainActivity extends AppCompatActivity
                     hideConnectionProgress();
 
                     if (throwable instanceof com.northghost.caketube.exceptions.UnauthorizedException) {
-                        ((MainApplication) getApplication()).destroySession();
+                        ((MainApplication) getApplication()).getApi().destroySession();
                         updateUI();
                     }
                 }
@@ -222,51 +249,6 @@ public class MainActivity extends AppCompatActivity
     @OnClick(R.id.optimal_server_btn)
     public void onServerChooserClick(View v) {
         RegionChooserDialog.newInstance().show(getSupportFragmentManager(), RegionChooserDialog.TAG);
-    }
-
-    public void loginUser() {
-        showLoginProgress();
-        final AFClientService api = ((MainApplication) getApplication()).getApi();
-        api.login(userOAuthToken, userOAuthMethod, new ResponseCallback<LoginResponse>() {
-            @Override
-            public void success(LoginResponse loginResponse) {
-                if (!"OK".equalsIgnoreCase(loginResponse.getResult())) {
-                    int stringRes = CodeStrings.codeForStatus(loginResponse.getResult());
-                    String error = (stringRes == R.string.app_error) ? loginResponse.getResult() : getString(stringRes);
-
-                    DialogHelper.showMessage(getString(R.string.signin_error), error, MainActivity.this);
-                    return;
-                }
-                updateUI();
-            }
-
-            @Override
-            public void failure(ApiException e) {
-                Log.e("loginUser", "unable to sign in " + e);
-                DialogHelper.showMessage(getString(R.string.signin_error), e.getMessage(), MainActivity.this);
-                updateUI();
-            }
-        });
-    }
-
-    private void logoutUser() {
-        showLoginProgress();
-        AFClientService api = ((MainApplication) getApplication()).getApi();
-        api.logout(new ResponseCallback<LogoutResponse>() {
-            @Override
-            public void success(LogoutResponse logoutResponse) {
-                if (connectionService.isServiceConnected() && connectionService.getVPNConnectionState() != AFConnectionService.VPNConnectionState.NOT_CONNECTED) {
-                    connectionService.disconnect();
-                }
-                updateUI();
-            }
-
-            @Override
-            public void failure(ApiException e) {
-                Toast.makeText(MainActivity.this, getString(R.string.no_network), Toast.LENGTH_LONG).show();
-                updateUI();
-            }
-        });
     }
 
     private void updateUI() {
@@ -361,13 +343,6 @@ public class MainActivity extends AppCompatActivity
     private void hideConnectionProgress() {
         connectionProgressBar.setVisibility(View.GONE);
         connectionStateTextView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void setLoginParams(String hostUrl, String carrierId, String token, String method) {
-        ((MainApplication) getApplication()).createApi(hostUrl, carrierId);
-        userOAuthToken = token;
-        userOAuthMethod = method;
     }
 
     @Override

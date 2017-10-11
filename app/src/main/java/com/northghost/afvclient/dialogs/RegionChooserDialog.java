@@ -2,7 +2,6 @@ package com.northghost.afvclient.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -13,8 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ProgressBar;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.northghost.afvclient.MainApplication;
 import com.northghost.afvclient.R;
 import com.northghost.afvclient.adapter.RegionListAdapter;
@@ -23,6 +21,9 @@ import com.northghost.caketube.ApiException;
 import com.northghost.caketube.ResponseCallback;
 import com.northghost.caketube.pojo.ServerItem;
 import com.northghost.caketube.pojo.ServersResponse;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RegionChooserDialog extends DialogFragment implements RegionListAdapter.RegionListAdapterInterface {
 
@@ -57,7 +58,7 @@ public class RegionChooserDialog extends DialogFragment implements RegionListAda
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.dialog_region_chooser, container);
     }
 
@@ -71,7 +72,6 @@ public class RegionChooserDialog extends DialogFragment implements RegionListAda
         regionAdapter = new RegionListAdapter(this);
         regionsRecyclerView.setAdapter(regionAdapter);
 
-        SharedPreferences prefs = ((MainApplication) getActivity().getApplication()).getPrefs();
         loadServers();
     }
 
