@@ -75,9 +75,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.selected_server)
     TextView selectedServerTextView;
 
-    private String userOAuthToken = null;
-    private String userOAuthMethod = null;
-
     private Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
@@ -89,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        connectionService = AFConnectionService.newBuilder(this)
+        connectionService = AFConnectionService.newBuilder(context)
                 .addConnectionCallbacksListener(this)
                 .addVPNConnectionStateListener(this)
                 .build();
@@ -171,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         showLoginProgress();
 
         if (!api.isLoggedIn()) {
-            api.login(userOAuthToken, userOAuthMethod, new ResponseCallback<LoginResponse>() {
+            api.login(null, "anonymous", new ResponseCallback<LoginResponse>() {
                 @Override
                 public void success(LoginResponse loginResponse) {
                     if (!"OK".equalsIgnoreCase(loginResponse.getResult())) {

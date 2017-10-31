@@ -9,7 +9,7 @@ import com.northghost.caketube.VPNNotificationProvider;
 
 import de.blinkt.openvpn.core.VpnStatus;
 
-public class MainApplication extends Application {
+    public class MainApplication extends Application {
     private AFClientService api;
 
     @Override
