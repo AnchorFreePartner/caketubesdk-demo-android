@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        connectionService = AFConnectionService.newBuilder(context)
+        connectionService = AFConnectionService.newBuilder(this)
                 .addConnectionCallbacksListener(this)
                 .addVPNConnectionStateListener(this)
                 .build();
