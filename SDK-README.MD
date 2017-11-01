@@ -96,8 +96,8 @@ If you are using proguard, add these rules to your proguard config (usually prog
 
 There are two main services created for User Management and VPN connections. 
 
-- AFClientService – general user management, sign in / sign out, credentials management
-- AFConnectionService – manage VPN
+- AFClientService – general user management, sign in / sign out, credentials management
+- AFConnectionService – manage VPN
 
 ## Authentication
 
@@ -172,9 +172,6 @@ public void setDisconnectWhenNetworkChanged(boolean disconnect);
 
 // Retrieve VPN credentials object. Credentials are cached on client-side for 24 hours. If they are expired - credential request will be sent to backend. User needs to be authorized. 
 public void getCredentials(final ResponseCallback<CredentialsResponse> cb);
-
-// Clear credentials cache. Invoke if user changes country.
-public void clearCache();
 
 // Get remaining traffic information. Use if there is a traffic limit for a user.
 public void getRemainingTraffic(final ResponseCallback<RemainingTrafficResponse> callback);
@@ -336,3 +333,7 @@ offline or unavailable.
 - **TrafficExceedException** - User’s traffic limit is exceeded.
 - **SessionsExceedException** - Too many sessions from one client.
 - **UnauthorizedException** - User is unauthorized for that request or not logged in.
+
+
+
+
