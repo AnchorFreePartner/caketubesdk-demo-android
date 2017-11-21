@@ -1,21 +1,15 @@
 apply plugin: 'com.android.application'
 
-ext {
-    androidBuildToolsVersion = "26.0.1"
-    androidSupportLibraryVersion = "26.0.2"
-}
-
 android {
     compileSdkVersion 26
-    buildToolsVersion androidBuildToolsVersion
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.northghost.afvclient"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 146
-        versionName "beta 146"
-        multiDexEnabled true
+        versionCode 1000
+        versionName "1000"
 
         buildConfigField "String", "BASE_HOST", "\"https://backend.northghost.com\""
         buildConfigField "String", "BASE_CARRIER_ID", "\"afdemo\""
@@ -52,11 +46,11 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.github.AnchorFreePartner:cake-tube-sdk-android:1.2.7'
+    compile 'com.github.AnchorFreePartner:cake-tube-sdk-android:1.3.1'
 
-    compile "com.android.support:appcompat-v7:${androidSupportLibraryVersion}"
-    compile "com.android.support:cardview-v7:${androidSupportLibraryVersion}"
-    compile "com.android.support:recyclerview-v7:${androidSupportLibraryVersion}"
+    compile "com.android.support:appcompat-v7:26.1.0"
+    compile "com.android.support:cardview-v7:26.1.0"
+    compile "com.android.support:recyclerview-v7:26.1.0"
 
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

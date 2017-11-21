@@ -78,7 +78,6 @@ If you are using proguard, add these rules to your proguard config (usually prog
 -keep class org.apache.http.* { *; }
 -keep class org.apache.http.**
 -keep class org.apache.james.mime4j.* { *; }
--keep class org.slf4j.** { *; }
 -keep class retrofit.** { *; }
 -keep class sun.misc.Unsafe { *; }
 -keep interface com.northghost.**
@@ -142,6 +141,9 @@ public Builder setConnectionRetries(int count);
 // Maximum timeout for API calls, in seconds. Default is 15.
 public Builder setTimeout(int timeout);
 
+//Enabled sdk logging with Timber.
+public Builder setDebugLogging(boolean val);
+
 // Notification provider / delegate. Used from VPN process to notify users about VPN status.
 public Builder setVPNNotificationProvider(VPNNotificationProvider provider);
 
@@ -184,6 +186,9 @@ public void logout(final ResponseCallback<LogoutResponse> cb);
 
 // Retrieve list of available servers.
 public void getServers(final ResponseCallback<ServersResponse> callback);
+
+// Retrieve list of available servers for protocol
+public void getServers(final Protocol protocol, final ResponseCallback<ServersResponse> callback);
 
 ```
 

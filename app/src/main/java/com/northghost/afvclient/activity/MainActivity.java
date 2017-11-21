@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity
         if (connectionService.getVPNConnectionState() == AFConnectionService.VPNConnectionState.NOT_CONNECTED) {
             showConnectionProgress();
             final AFClientService api = ((MainApplication) getApplication()).getApi();
-            api.getCredentials(Protocol.AUTO, new ResponseCallback<CredentialsResponse>() {
+            api.getCredentials(Protocol.UDP, new ResponseCallback<CredentialsResponse>() {
                 @Override
                 public void success(CredentialsResponse credentialsResponse) {
                     connectionService.connect(credentialsResponse, MainActivity.this);

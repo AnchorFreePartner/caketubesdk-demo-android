@@ -18,6 +18,7 @@ import com.northghost.afvclient.R;
 import com.northghost.afvclient.adapter.RegionListAdapter;
 import com.northghost.caketube.AFClientService;
 import com.northghost.caketube.ApiException;
+import com.northghost.caketube.Protocol;
 import com.northghost.caketube.ResponseCallback;
 import com.northghost.caketube.pojo.ServerItem;
 import com.northghost.caketube.pojo.ServersResponse;
@@ -78,7 +79,7 @@ public class RegionChooserDialog extends DialogFragment implements RegionListAda
     private void loadServers() {
         showProgress();
         AFClientService api = ((MainApplication) getActivity().getApplication()).getApi();
-        api.getServers(new ResponseCallback<ServersResponse>() {
+        api.getServers(Protocol.UDP, new ResponseCallback<ServersResponse>() {
             @Override
             public void success(ServersResponse response) {
                 if (!"OK".equals(response.getResult())) {
