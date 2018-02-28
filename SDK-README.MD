@@ -8,6 +8,10 @@ In order to be able to use the SDK the following steps have to be done:
 2. Create a project
 3. Use SDK with a **carrier_id** equals to the given *PublicKey*.
 
+## Changelog
+
+- [HydraSDK for Android changelog](https://github.com/AnchorFreePartner/caketubesdk-demo-android/blob/master/CHANGES.md)
+
 # Prerequisites
 
 - Android 4+ (API 14+).
