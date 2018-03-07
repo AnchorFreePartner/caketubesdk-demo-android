@@ -93,6 +93,7 @@ If you are using proguard, add these rules to your proguard config (usually prog
 -keepattributes Signature
 -keepattributes Exceptions
 -keepclasseswithmembers class * { @retrofit.http.* <methods>; }
+-keep class com.anchorfree.hydrasdk.api.** {*;}
 ```
 
 # Android library API
