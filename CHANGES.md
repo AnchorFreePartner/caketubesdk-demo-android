@@ -25,3 +25,26 @@
 
 ### 1.3.4
 - removed "\n" from device id
+
+### 1.3.5
+- "OK" in response result field
+
+### 1.3.6
+- fix socket timeout on api calls after vpn started
+
+### 1.3.7
+
+- added auto protocol for back compatibility
+
+### 1.3.8
+
+- fixed creds store
+
+### 1.3.9
+
+- added handling Device exceed exception
+
+### 1.4.0
+
+- removed quantcast
+- added armv7-a
