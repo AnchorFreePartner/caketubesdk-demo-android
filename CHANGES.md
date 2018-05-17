@@ -48,3 +48,7 @@
 
 - removed quantcast
 - added armv7-a
+
+### 1.4.1
+
+- added information about limited/unlimited traffic to getRemainingTraffic api
