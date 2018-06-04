@@ -63,37 +63,17 @@ Minimum permissions required (INTERNET, ACCESS_NETWORK_STATE) are automatically 
 If you are using proguard, add these rules to your proguard config (usually proguard-rules.pro file):
 
 ```
--dontwarn android.security.**
--dontwarn com.quantcast.**
--dontwarn com.squareup.okhttp.**
--dontwarn javax.mail.**
 -dontwarn okio.**
--dontwarn retrofit.**
--keep class ch.qos.** { *; }
--keep class com.google.android.gms.ads.identifier.AdvertisingIdClient { com.google.android.gms.ads.identifier.AdvertisingIdClient$Info getAdvertisingIdInfo(android.content.Context); }
--keep class com.google.android.gms.ads.identifier.AdvertisingIdClient$Info { java.lang.String getId(); boolean isLimitAdTrackingEnabled(); }
--keep class com.google.gson.** { *; }
--keep class com.google.inject.* { *; }
--keep class com.northghost.** { *; }
--keep class com.quantcast.** { *; }
--keep class com.squareup.okhttp.** { *; }
--keep class de.blinkt.openvpn.** { *; }
--keep class javax.inject.* { *; }
--keep class org.apache.http.* { *; }
--keep class org.apache.http.**
--keep class org.apache.james.mime4j.* { *; }
--keep class retrofit.** { *; }
+-keep class com.anchorfree.hydrasdk.api.response.** {*;}
+-keep class com.anchorfree.hydrasdk.api.data.** {*;}
+-keep class com.northghost.caketube.pojo.** {*;}
+-keep class com.northghost.caketube.exceptions.** {*;}
+-keep class com.northghost.caketube.ApiException {*;}
 -keep class sun.misc.Unsafe { *; }
--keep interface com.northghost.**
--keep interface com.squareup.okhttp.** { *; }
--keep public class com.google.android.gms.ads.identifier.** { *; }
--keepattributes *
--keepattributes *Annotation*
 -keepattributes InnerClasses
 -keepattributes Signature
 -keepattributes Exceptions
--keepclasseswithmembers class * { @retrofit.http.* <methods>; }
--keep class com.anchorfree.hydrasdk.api.** {*;}
+
 ```
 
 # Android library API
