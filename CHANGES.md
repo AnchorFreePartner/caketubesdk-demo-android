@@ -56,3 +56,6 @@
 ### 1.4.2
 
 - updated openvpn binaries
+
+### 1.4.3
+- startForeground for Oreo
