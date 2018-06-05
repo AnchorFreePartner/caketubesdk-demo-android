@@ -52,3 +52,7 @@
 ### 1.4.1
 
 - added information about limited/unlimited traffic to getRemainingTraffic api
+
+### 1.4.2
+
+- updated openvpn binaries
