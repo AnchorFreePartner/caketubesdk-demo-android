@@ -58,4 +58,21 @@
 - updated openvpn binaries
 
 ### 1.4.3
+
 - startForeground for Oreo
+
+### 1.4.5
+
+- another fix for android 8+
+
+### 1.4.6
+
+- fix for sticky notification on android O
+
+### 1.4.7
+
+- revise background services to be compatible with Android O
+
+### 1.4.8
+
+- fix no NOT_CONNECTED event on connected service
