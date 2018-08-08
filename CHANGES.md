@@ -76,3 +76,11 @@
 ### 1.4.8
 
 - fix no NOT_CONNECTED event on connected service
+
+### 1.4.9
+
+- fix sending not authorized exception for expired token
+
+### 1.5.0
+
+- Added user suspended exception
