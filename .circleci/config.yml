@@ -7,7 +7,7 @@ references:
   android_config: &android_config
     working_directory: ~/repo
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-28
     resource_class: large
     environment:
       _JAVA_OPTIONS: "-Xms1024m -Xmx4096m"
