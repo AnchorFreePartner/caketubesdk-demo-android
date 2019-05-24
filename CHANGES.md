@@ -84,3 +84,7 @@
 ### 1.5.0
 
 - Added user suspended exception
+
+### 1.5.8
+
+- Added support for 64bit 
