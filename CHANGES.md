@@ -87,4 +87,8 @@
 
 ### 1.5.8
 
-- Added support for 64bit 
+- Added support for 64bit
+
+### 1.5.9
+
+- fix crash on service disconnect 
