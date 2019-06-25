@@ -3,6 +3,7 @@ package com.northghost.afvclient.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,19 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ProgressBar;
-
-import com.northghost.afvclient.MainApplication;
-import com.northghost.afvclient.R;
-import com.northghost.afvclient.adapter.RegionListAdapter;
-import com.northghost.caketube.AFClientService;
-import com.northghost.caketube.ApiException;
-import com.northghost.caketube.Protocol;
-import com.northghost.caketube.ResponseCallback;
-import com.northghost.caketube.pojo.ServerItem;
-import com.northghost.caketube.pojo.ServersResponse;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.anchorfree.hydrasdk.HydraSdk;
+import com.anchorfree.hydrasdk.api.caketube.ConnectionType;
+import com.anchorfree.hydrasdk.api.data.Country;
+import com.anchorfree.hydrasdk.callbacks.Callback;
+import com.anchorfree.hydrasdk.exceptions.HydraException;
+import com.northghost.afvclient.R;
+import com.northghost.afvclient.adapter.RegionListAdapter;
+import java.util.List;
 
 public class RegionChooserDialog extends DialogFragment implements RegionListAdapter.RegionListAdapterInterface {
 
@@ -78,20 +76,32 @@ public class RegionChooserDialog extends DialogFragment implements RegionListAda
 
     private void loadServers() {
         showProgress();
-        AFClientService api = ((MainApplication) getActivity().getApplication()).getApi();
-        api.getServers(Protocol.UDP, new ResponseCallback<ServersResponse>() {
+        //AFClientService api = ((MainApplication) getActivity().getApplication()).getApi();
+        //api.getServers(Protocol.UDP, new ResponseCallback<ServersResponse>() {
+        //    @Override
+        //    public void success(ServersResponse response) {
+        //        if (!"OK".equals(response.getResult())) {
+        //            dismiss();
+        //        }
+        //        regionAdapter.setRegions(response.getCountries());
+        //        hideProress();
+        //    }
+        //
+        //    @Override
+        //    public void failure(ApiException e) {
+        //        dismiss();
+        //    }
+        //});
+        HydraSdk.countries(ConnectionType.OPENVPN_TCP, new Callback<List<Country>>() {
             @Override
-            public void success(ServersResponse response) {
-                if (!"OK".equals(response.getResult())) {
-                    dismiss();
-                }
-                regionAdapter.setRegions(response.getCountries());
+            public void success(@NonNull List<Country> countries) {
+                regionAdapter.setRegions(countries);
                 hideProress();
             }
 
             @Override
-            public void failure(ApiException e) {
-                dismiss();
+            public void failure(@NonNull HydraException e) {
+
             }
         });
     }
@@ -107,7 +117,7 @@ public class RegionChooserDialog extends DialogFragment implements RegionListAda
     }
 
     @Override
-    public void onCountrySelected(ServerItem item) {
+    public void onCountrySelected(Country item) {
         regionChooserInterface.onRegionSelected(item);
         dismiss();
     }
@@ -127,6 +137,6 @@ public class RegionChooserDialog extends DialogFragment implements RegionListAda
     }
 
     public interface RegionChooserInterface {
-        void onRegionSelected(ServerItem item);
+        void onRegionSelected(Country item);
     }
 }
