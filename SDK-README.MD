@@ -325,5 +325,254 @@ offline or unavailable.
 - **UnauthorizedException** - User is unauthorized for that request or not logged in.
 
 
+# Update to HydraSDK with openvpn transport
 
+1) Remove dependency to caketube-sdk in app level **build.gradle**
 
+```
+    compile 'com.github.AnchorFreePartner:cake-tube-sdk-android:{VERSION}'
+```
+
+2) Add dependency to hydrasdk-core with openvpn support
+
+```
+ implementation 'com.github.AnchorFreePartner.hydra-sdk-android:sdk-core:{VERSION_NAME}'
+ implementation 'com.github.AnchorFreePartner.hydra-sdk-android:openvpn:{VERSION_NAME}'
+```
+
+3) Init HydraSDK with openvpn support
+
+```
+//old code
+//AFClientService.newBuilder(this)
+//               .setCarrierId("afdemo")
+//               .setDebugLogging(true)
+//                .setHostUrl("https://backend.northghost.com")
+//                 ...
+
+//new code
+HydraSdk.init(this, ClientInfo.newBuilder()
+                        .carrierId("afdemo")
+                        .baseUrl("https://backend.northghost.com")
+                        .build(),
+                NotificationConfig.newBuilder()
+                        .channelId("vpn_channel_id") // notification channel should be created and id passed here
+                        .build(), HydraSDKConfig.newBuilder()
+                        .registerTransport(CaketubeTransport.TRANSPORT_ID_TCP, CaketubeTransportFactory.class, CaketubeCredentialsSource.class)
+                        .registerTransport(CaketubeTransport.TRANSPORT_ID_UDP, CaketubeTransportFactory.class, CaketubeCredentialsSource.class)
+                        .build());
+```
+
+4) Replace AFClientService methods with their HydraSDK version
+
+Remove AFConnectionService.ServiceConnectionCallbacks and AFConnectionService.VPNConnectionStateListener interfaces
+Remove AFConnectionService references
+
+### Stop VPN
+```
+//old code
+connectionService.disconnect();
+
+//new code
+HydraSdk.stopVPN(TrackingConstants.GprReasons.M_UI, new CompletableCallback() {
+            @Override
+            public void complete() {
+                
+            }
+
+            @Override
+            public void error(@NonNull HydraException e) {
+
+            }
+        });
+```
+
+### List countries
+```
+//old code
+api.getServers(Protocol.UDP, new ResponseCallback<ServersResponse>() {
+    @Override
+    public void success(ServersResponse response) {
+        
+    }
+
+    @Override
+    public void failure(ApiException e) {
+        
+    }
+});
+
+//new code
+HydraSdk.countries(ConnectionType.OPENVPN_TCP, new Callback<List<Country>>() {
+    @Override
+    public void success(@NonNull List<Country> countries) {
+        
+    }
+
+    @Override
+    public void failure(@NonNull HydraException e) {
+
+    }
+});
+```
+
+### Listen to vpn connection state
+```
+//old code
+@Override
+public void onVPNConnectionStateChanged(AFConnectionService.VPNConnectionState vpnConnectionState) {
+    if (vpnConnectionState == AFConnectionService.VPNConnectionState.CONNECTING) {
+        showConnectionProgress();
+    } else if (vpnConnectionState == AFConnectionService.VPNConnectionState.CONNECTED) {
+        updateUI();
+        startTrafficStatsTracker();
+    } else if (vpnConnectionState == AFConnectionService.VPNConnectionState.NOT_CONNECTED) {
+        updateUI();
+        stopTrafficStatsTracker();
+    }
+}
+
+//new code
+HydraSdk.addVpnListener(new VpnStateListener() {
+    @Override
+    public void vpnStateChanged(@NonNull VPNState vpnState) {
+        if (vpnState == VPNState.CONNECTED) {
+            
+        } else if (vpnState == VPNState.IDLE) {
+            
+        } else {
+            
+        }
+    }
+
+    @Override
+    public void vpnError(@NonNull HydraException e) {
+
+    }
+});
+```
+### Get VPN connection state
+```
+//old code
+connectionService.getVPNConnectionState()
+
+//new code
+HydraSdk.getVpnState(new Callback<VPNState>() {
+    @Override
+    public void success(@NonNull VPNState vpnState) {
+
+    }
+
+    @Override
+    public void failure(@NonNull HydraException e) {
+
+    }
+});
+```
+
+### Get remaining traffic
+```
+//old code
+api.getRemainingTraffic(new ResponseCallback<RemainingTrafficResponse>() {
+    @Override
+    public void success(RemainingTrafficResponse remainingTrafficResponse) {
+        
+    }
+
+    @Override
+    public void failure(ApiException e) {
+
+    }
+});
+
+//new code
+HydraSdk.remainingTraffic(new Callback<RemainingTraffic>() {
+    @Override
+    public void success(@NonNull final RemainingTraffic remainingTraffic) {      
+        
+    }
+
+    @Override
+    public void failure(@NonNull HydraException e) {
+
+    }
+});
+```
+### Get traffic stats
+```
+//old code
+connectionService.getTrafficStats()
+
+//new code
+HydraSdk.getTrafficStats(new Callback<TrafficStats>() {
+    @Override
+    public void success(@NonNull TrafficStats stats) {
+        
+    }
+
+    @Override
+    public void failure(@NonNull HydraException e) {
+
+    }
+});
+```
+### Start VPN
+```
+//old code
+api.getCredentials(Protocol.UDP, new ResponseCallback<CredentialsResponse>() {
+    @Override
+    public void success(CredentialsResponse credentialsResponse) {
+        connectionService.connect(credentialsResponse, MainActivity.this);
+    }
+
+    @Override
+    public void failure(ApiException exception) {
+        
+    }
+});
+
+//new code
+HydraSdk.startVPN(new SessionConfig.Builder()
+                        .withTransport(CaketubeTransport.TRANSPORT_ID_UDP)
+                        .withReason(TrackingConstants.GprReasons.M_UI)
+                        .build(), new Callback<ServerCredentials>() {
+    @Override
+    public void success(@NonNull ServerCredentials serverCredentials) {
+        
+    }
+
+    @Override
+    public void failure(@NonNull HydraException e) {
+
+    }
+});
+```
+
+### Login
+```
+//old code
+api.login(null, "anonymous", new ResponseCallback<LoginResponse>() {
+    @Override
+    public void success(LoginResponse loginResponse) {
+        
+    }
+
+    @Override
+    public void failure(ApiException e) {
+        
+    }
+});
+
+//new code
+HydraSdk.login(AuthMethod.anonymous(), new Callback<User>() {
+    @Override
+    public void success(@NonNull User user) {
+
+    }
+    
+    @Override
+    public void failure(@NonNull HydraException e) {
+
+    }
+});
+```

@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.anchorfree.hydrasdk.api.data.Country;
 import com.northghost.afvclient.R;
-import com.northghost.caketube.pojo.ServerItem;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RegionListAdapter extends RecyclerView.Adapter<RegionListAdapter.ViewHolder> {
 
-    private List<ServerItem> regions;
+    private List<Country> regions;
     private RegionListAdapterInterface listAdapterInterface;
 
     public RegionListAdapter(RegionListAdapterInterface listAdapterInterface) {
@@ -55,13 +55,13 @@ public class RegionListAdapter extends RecyclerView.Adapter<RegionListAdapter.Vi
         }
     }
 
-    public void setRegions(List<ServerItem> list) {
+    public void setRegions(List<Country> list) {
         regions = new ArrayList<>();
         regions.addAll(list);
         notifyDataSetChanged();
     }
 
     public interface RegionListAdapterInterface {
-        void onCountrySelected(ServerItem item);
+        void onCountrySelected(Country item);
     }
 }
